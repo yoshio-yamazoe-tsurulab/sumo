@@ -1,8 +1,10 @@
 
-import pandas as pd
 import ssl
 from urllib.request import urlopen
+import urllib.error
+import pandas as pd
 from bs4 import BeautifulSoup
+
 
 class player_list:
     def __init__(self, id):
@@ -57,23 +59,27 @@ class player_list:
                         datarow.extend(text)
             if datarow != []:
                 if len(datarow) == 2:
-                    continue
-                banduke.append(datarow[1])
-                shohai.append(datarow[2])
-                if len(datarow) >= 6:
-                    if (datarow[4] == "優勝"):
-                        yusho.append("優勝")
-                    elif (datarow[4] == "準優勝"):
-                        yusho.append("準優勝")
-                    else:
-                        yusho.append(None)
-                    if "回" in datarow[5]:
-                        kaisuu.append(int(datarow[5][1:].split('回')[0]))
-                    else:
-                        kaisuu.append(None)
-                else:
+                    banduke.append(datarow[1])
+                    shohai.append(None)
                     yusho.append(None)
                     kaisuu.append(None)
+                else:
+                    banduke.append(datarow[1])
+                    shohai.append(datarow[2])
+                    if len(datarow) >= 6:
+                        if (datarow[4] == "優勝"):
+                            yusho.append("優勝")
+                        elif (datarow[4] == "準優勝"):
+                            yusho.append("準優勝")
+                        else:
+                            yusho.append(None)
+                        if "回" in datarow[5]:
+                            kaisuu.append(int(datarow[5][1:].split('回')[0]))
+                        else:
+                            kaisuu.append(None)
+                    else:
+                        yusho.append(None)
+                        kaisuu.append(None)
 
 
         df1 = pd.DataFrame(datayeah, columns = number)
@@ -89,7 +95,20 @@ class player_list:
         df.to_csv("../rikishi_data/" + self.id + ".csv" , encoding="utf-8")
 
 if __name__ == '__main__':
-    for num in range(2933, 20000):
-        print(num)
+    exceptlist = []
+    httplist = []
+    #11898から
+    for num in range(7374, 11898):
+
         rikishi = player_list(num)
-        rikishi.main()
+        try:
+            rikishi.main()
+        except urllib.error.HTTPError as e:
+            httplist.append(num)
+            #print(e.cide)
+            print(httplist)
+        except ValueError:
+            exceptlist.append(num)
+            print(exceptlist)
+        print(num)
+    print(exceptlist)

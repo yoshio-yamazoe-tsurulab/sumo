@@ -1,14 +1,9 @@
 import pandas as pd
-import csv
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
-from pathlib import Path
 import os
 import re
-import types
-import sys
-import pprint
 
 class sumo_to_csv:
     def __init__(self, year, month, day):
@@ -28,12 +23,13 @@ class sumo_to_csv:
         try:
             html = urlopen(self.url)
             bsObj = BeautifulSoup(html, "html.parser")
-            table = bsObj.findAll("table", {"class": "tk_table"})[0]
+            table = bsObj.findAll("table", {"class": "tk_table"})[1] #0:幕内、1:十両、2:幕下、3:三段目、4:序二段、5:序の口
         except IndexError:
             return
         # テーブルを指定
         rows = table.findAll("tr")[1:]
         self.title = table.findAll("tr")[0].find('td').get_text()
+
 
         higashi_hoshi = []
         higashi_banduke = []
@@ -108,12 +104,27 @@ class sumo_to_csv:
 
 if __name__ == '__main__':
 
-    years = list(range(1980,2000))  # 1909から あとで1979の3月から
-    months = ["01", "03", "05", "07", "09", "11"]
+    years = list(range(1958,1978))  # 1909から あとで1979の3月から
+    #十両　1979以前
+    months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+    #months = ["01", "03", "05", "07", "09", "11"]
     days = list(range(1,16))
     for year in years:
         for month in months:
             for day in days:
-                sumo = sumo_to_csv(year, month, day)
-                sumo.csv_maker()
+                csvname = "../data/"+ str(year) + "/" + month + "/" + "十両/" + str(day) + ".csv"
+                if (os.path.exists(csvname) == True):
+                    continue
+                else:
+                    sumo = sumo_to_csv(year, month, day)
+                    sumo.csv_maker()
         print(str(year)+"done")
+    """
+
+    year = 1997
+    month = "11"
+    days = list(range(9,16))
+    for day in days:
+        sumo = sumo_to_csv(year, month, day)
+        sumo.csv_maker()
+    """
