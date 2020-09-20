@@ -40,12 +40,13 @@ class rikishi_data:
 
 if __name__ == '__main__':
     shikonalist = []
-    N = 11898
-    for num in range(1276, N):
+    N = 12659 #最新力士
+    #11898～11909はなぜかなし
+    for num in range(1, N):
         rikishi = rikishi_data(num)
 
         shikona = rikishi.id_to_shikona()
         shikonalist.append(shikona)
-        print(num, shikona)
+        #print(num, shikona)
     df = pd.DataFrame(data={'id': range(1, N), '四股名': shikonalist})
     df.to_csv("../id/id.csv")
