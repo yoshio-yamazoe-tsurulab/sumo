@@ -98,7 +98,7 @@ if __name__ == '__main__':
     exceptlist = []
     httplist = []
     #11898から
-    for num in range(7374, 11898):
+    for num in range(11910, 12659):
 
         rikishi = player_list(num)
         try:

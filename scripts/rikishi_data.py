@@ -39,6 +39,8 @@ class rikishi_data:
 
 
 if __name__ == '__main__':
+
+    """
     shikonalist = []
     N = 12659 #最新力士
     #11898～11909はなぜかなし
@@ -50,3 +52,8 @@ if __name__ == '__main__':
         #print(num, shikona)
     df = pd.DataFrame(data={'id': range(1, N), '四股名': shikonalist})
     df.to_csv("../id/id.csv")
+    """
+
+    df = pd.read_csv("../id/id.csv")
+    print(df.head())
+
