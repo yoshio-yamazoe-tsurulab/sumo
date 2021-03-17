@@ -1,3 +1,4 @@
+#力士個々人の通算成績を出す
 
 import ssl
 from urllib.request import urlopen

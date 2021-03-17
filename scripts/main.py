@@ -1,3 +1,5 @@
+#星取表作成
+
 import pandas as pd
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
@@ -11,7 +13,7 @@ class sumo_to_csv:
         self.year = str(year)
         self.month = month
         self.day = str(day)
-        self.url = "http://sumodb.sumogames.de/Results.aspx?b=" + self.year + self.month + "&d=" + self.day + "&l=j"
+        self.url = "hyou" + self.year + self.month + "&d=" + self.day + "&l=j"
 
 
     def save_file_at_new_dir(self, new_dir_path, new_filename, new_file_content, mode='w'):
