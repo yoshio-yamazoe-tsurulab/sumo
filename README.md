@@ -33,3 +33,7 @@ for year in years:
             sumo = sumo_to_csv(year, month, day)
 ```
 
+main.pyは、星取表作成
+player_list.pyは力士個人データ作成
+以上二つがメイン
+
