@@ -13,7 +13,7 @@ class sumo_to_csv:
         self.year = str(year)
         self.month = month
         self.day = str(day)
-        self.url = "hyou" + self.year + self.month + "&d=" + self.day + "&l=j"
+        self.url = "http://sumodb.sumogames.de/Results.aspx?b=" + self.year + self.month + "&d=" + self.day + "&l=j"
 
 
     def save_file_at_new_dir(self, new_dir_path, new_filename, new_file_content, mode='w'):
@@ -25,7 +25,7 @@ class sumo_to_csv:
         try:
             html = urlopen(self.url)
             bsObj = BeautifulSoup(html, "html.parser")
-            table = bsObj.findAll("table", {"class": "tk_table"})[1] #0:幕内、1:十両、2:幕下、3:三段目、4:序二段、5:序の口
+            table = bsObj.findAll("table", {"class": "tk_table"})[0] #0:幕内、1:十両、2:幕下、3:三段目、4:序二段、5:序の口
         except IndexError:
             return
         # テーブルを指定
@@ -106,7 +106,8 @@ class sumo_to_csv:
 
 if __name__ == '__main__':
 
-    years = list(range(1958,1978))  # 1909から あとで1979の3月から
+    #years = list(range(1958,1978))  # 1909から あとで1979の3月から
+    years = [2020, 2021]
     #十両　1979以前
     months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     #months = ["01", "03", "05", "07", "09", "11"]
